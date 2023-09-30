@@ -1,0 +1,298 @@
+Designing a database for managing music-related information involves creating several tables to store different types of data, such as artists, albums, songs, genres, songgenres.
+
+
+Create database Bighit;
+ use Bighit;
+Create table Artist (
+    ->  ArtistID INT PRIMARY KEY AUTO_INCREMENT,
+    -> ArtistName VARCHAR(255) NOT NULL);
+CREATE TABLE Albums (
+    ->  AlbumID INT PRIMARY KEY AUTO_INCREMENT,
+    -> AlbumTitle VARCHAR(255) NOT NULL,
+    ->  ReleaseYear INT,
+    -> ArtistID INT,
+    ->  FOREIGN KEY (ArtistID) REFERENCES Artist(ArtistID));
+CREATE TABLE Songs (
+    -> SongID INT PRIMARY KEY AUTO_INCREMENT,
+    -> SongTitle VARCHAR(255) NOT NULL,
+    -> DurationInSeconds INT,
+    -> AlbumID INT,
+    -> FOREIGN KEY (AlbumID) REFERENCES Albums(AlbumID));
+ CREATE TABLE Genres (
+    -> GenreID INT PRIMARY KEY AUTO_INCREMENT,
+    -> GenreName VARCHAR(255) NOT NULL);
+ CREATE TABLE SongGenres (
+    -> SongID INT,GenreID INT,
+    -> PRIMARY KEY (SongID, GenreID),
+    -> FOREIGN KEY (SongID) REFERENCES Songs(SongID),
+    -> FOREIGN KEY (GenreID) REFERENCES Genres(GenreID));
+ show tables;
++------------------+
+| Tables_in_bighit |
++------------------+
+| albums           |
+| artist           |
+| genres           |
+| songgenres       |
+| songs            |
++------------------+
+ desc albums;
++-------------+--------------+------+-----+---------+----------------+
+| Field       | Type         | Null | Key | Default | Extra          |
++-------------+--------------+------+-----+---------+----------------+
+| AlbumID     | int(11)      | NO   | PRI | NULL    | auto_increment |
+| AlbumTitle  | varchar(255) | NO   |     | NULL    |                |
+| ReleaseYear | int(11)      | YES  |     | NULL    |                |
+| ArtistID    | int(11)      | YES  | MUL | NULL    |                |
++-------------+--------------+------+-----+---------+----------------+
+ desc artist;
++------------+--------------+------+-----+---------+----------------+
+| Field      | Type         | Null | Key | Default | Extra          |
++------------+--------------+------+-----+---------+----------------+
+| ArtistID   | int(11)      | NO   | PRI | NULL    | auto_increment |
+| ArtistName | varchar(255) | NO   |     | NULL    |                |
++------------+--------------+------+-----+---------+----------------+
+ desc genres;
++-----------+--------------+------+-----+---------+----------------+
+| Field     | Type         | Null | Key | Default | Extra          |
++-----------+--------------+------+-----+---------+----------------+
+| GenreID   | int(11)      | NO   | PRI | NULL    | auto_increment |
+| GenreName | varchar(255) | NO   |     | NULL    |                |
++-----------+--------------+------+-----+---------+----------------+
+ desc songs;
++-------------------+--------------+------+-----+---------+----------------+
+| Field             | Type         | Null | Key | Default | Extra          |
++-------------------+--------------+------+-----+---------+----------------+
+| SongID            | int(11)      | NO   | PRI | NULL    | auto_increment |
+| SongTitle         | varchar(255) | NO   |     | NULL    |                |
+| DurationInSeconds | int(11)      | YES  |     | NULL    |                |
+| AlbumID           | int(11)      | YES  | MUL | NULL    |                |
++-------------------+--------------+------+-----+---------+----------------+
+ desc songgenres;
++---------+---------+------+-----+---------+-------+
+| Field   | Type    | Null | Key | Default | Extra |
++---------+---------+------+-----+---------+-------+
+| SongID  | int(11) | NO   | PRI | NULL    |       |
+| GenreID | int(11) | NO   | PRI | NULL    |       |
++---------+---------+------+-----+---------+-------+
+INSERT INTO Artist (ArtistName) VALUES ('Kim Namjoon');
+INSERT INTO Artist (ArtistName) VALUES ('Kim Seokjin');
+INSERT INTO Artist (ArtistName) VALUES ('Min Yoongi');
+INSERT INTO Artist (ArtistName) VALUES ('Jung Hoseok');
+INSERT INTO Artist (ArtistName) VALUES ('Park Jimin');
+INSERT INTO Artist (ArtistName) VALUES ('Kim Taehyung');
+INSERT INTO Artist (ArtistName) VALUES ('Jeon Jungkook');
+select * from Artist;
++----------+---------------+
+| ArtistID | ArtistName    |
++----------+---------------+
+|        1 | Kim Namjoon   |
+|        2 | Kim Seokjin   |
+|        3 | Min Yoongi    |
+|        4 | Jung Hoseok   |
+|        5 | Park Jimin    |
+|        6 | Kim Taehyung  |
+|        7 | Jeon Jungkook |
++----------+---------------+
+INSERT INTO Albums (AlbumTitle, ReleaseYear, ArtistID) VALUES ('Indigo',2022,1);
+INSERT INTO Albums (AlbumTitle, ReleaseYear, ArtistID) VALUES ('SoloTrack',2022,2);
+INSERT INTO Albums (AlbumTitle, ReleaseYear, ArtistID) VALUES ('D-Day',2023,3);
+INSERT INTO Albums (AlbumTitle, ReleaseYear, ArtistID) VALUES ('Jack in the Box',2022,4);
+INSERT INTO Albums (AlbumTitle, ReleaseYear, ArtistID) VALUES ('Face',2023,5);
+INSERT INTO Albums (AlbumTitle, ReleaseYear, ArtistID) VALUES ('Layover',2023,6);INSERT INTO Albums (AlbumTitle, ReleaseYear, ArtistID) VALUES ('3D',2023,7);
+select * from Albums;
++---------+-----------------+-------------+----------+
+| AlbumID | AlbumTitle      | ReleaseYear | ArtistID |
++---------+-----------------+-------------+----------+
+|       1 | Indigo          |        2022 |        1 |
+|       2 | SoloTrack       |        2022 |        2 |
+|       3 | D-Day           |        2023 |        3 |
+|       4 | Jack in the Box |        2022 |        4 |
+|       5 | Face            |        2023 |        5 |
+|       6 | Layover         |        2023 |        6 |
+|       7 | 3D              |        2023 |        7 |
++---------+-----------------+-------------+----------+
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Hectic',227, 1);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('All Day',187, 1);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Forgtful',163, 1);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Lonely',167, 1);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Wild Flower',274, 1);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('The Astronut',282, 2);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Haegeum',168, 3);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Amygdala',251, 3);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('People Pt. 2',213, 3);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Life Goes On',197, 3);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Snooze',264, 3);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Future',140, 4);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('More',181, 4);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Arson',160, 4);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Equal Sign',115, 4);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Pandora Box',157, 4);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Alone',111, 5);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Like Crazy',112, 5);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Alone',211, 5);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Like Crazy',212, 5);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Face Off',230, 5);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Set Me Free Pt.2',201, 5);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Interlude:Dive',131, 5);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Rainy Days',180, 6);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Love Me Again',183, 6);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Blue',150,6);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Slow Dancing',188,6);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('For Us',172,6);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('3D',201,7);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('3D Instrumental',209,7);
+INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('3D Alternate Vesion',162,7);
+select * from Songs;
++--------+---------------------+-------------------+---------+
+| SongID | SongTitle           | DurationInSeconds | AlbumID |
++--------+---------------------+-------------------+---------+
+|      1 | Hectic              |               227 |       1 |
+|      2 | All Day             |               187 |       1 |
+|      3 | Forgtful            |               163 |       1 |
+|      4 | Lonely              |               167 |       1 |
+|      5 | Wild Flower         |               274 |       1 |
+|      6 | The Astronut        |               282 |       2 |
+|      7 | Haegeum             |               168 |       3 |
+|      8 | Amygdala            |               251 |       3 |
+|      9 | People Pt. 2        |               213 |       3 |
+|     10 | Life Goes On        |               197 |       3 |
+|     11 | Snooze              |               264 |       3 |
+|     12 | Future              |               140 |       4 |
+|     13 | More                |               181 |       4 |
+|     14 | Arson               |               160 |       4 |
+|     15 | Equal Sign          |               115 |       4 |
+|     16 | Pandora Box         |               157 |       4 |
+|     17 | Alone               |               211 |       5 |
+|     18 | Like Crazy          |               212 |       5 |
+|     19 | Face Off            |               230 |       5 |
+|     20 | Set Me Free Pt.2    |               201 |       5 |
+|     21 | Interlude:Dive      |               131 |       5 |
+|     22 | Rainy Days          |               180 |       6 |
+|     23 | Love Me Again       |               183 |       6 |
+|     24 | Blue                |               150 |       6 |
+|     25 | Slow Dancing        |               188 |       6 |
+|     26 | For Us              |               172 |       6 |
+|     27 | 3D                  |               201 |       7 |
+|     28 | 3D Instrumental     |               209 |       7 |
+|     29 | 3D Alternate Vesion |               162 |       7 |
++--------+---------------------+-------------------+---------+
+INSERT INTO Genres (GenreName) VALUES ('Hip-hop');
+INSERT INTO Genres (GenreName) VALUES ('K-Pop');
+INSERT INTO Genres (GenreName) VALUES ('Rock');
+INSERT INTO Genres (GenreName) VALUES ('Synth-pop');
+INSERT INTO Genres (GenreName) VALUES ('J-pop');
+INSERT INTO Genres (GenreName) VALUES ('old school hip-hop');
+INSERT INTO Genres (GenreName) VALUES ('Melancholic R&B');
+INSERT INTO Genres (GenreName) VALUES ('R&B/Soul');
+INSERT INTO Genres (GenreName) VALUES ('pop R&B');
+select * from genres;
++---------+--------------------+
+| GenreID | GenreName          |
++---------+--------------------+
+|       1 | Hip-hop            |
+|       2 | K-Pop              |
+|       3 | Rock               |
+|       4 | Synth-pop          |
+|       5 | J-pop              |
+|       6 | old school hip-hop |
+|       7 | Melancholic R&B    |
+|       8 | R&B/Soul           |
+|       9 | pop R&B            |
++---------+--------------------+
+INSERT INTO SongGenres (SongID, GenreID) VALUES (1, 1);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (2, 2);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (3, 2);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (4, 2);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (5, 2);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (6, 3);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (7, 1);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (8, 2);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (9, 2);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (10, 4);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (11, 2);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (12, 6);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (13, 7);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (14, 2);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (15, 2);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (16, 7);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (17, 8);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (18, 4);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (19, 2);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (20, 2);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (21, 2);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (22, 9);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (23, 9);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (24, 9);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (25, 9);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (26, 9);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (27, 10);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (28, 10);
+INSERT INTO SongGenres (SongID, GenreID) VALUES (29, 10);
+select * from SongGenres;
++--------+---------+
+| SongID | GenreID |
++--------+---------+
+|      1 |       1 |
+|      2 |       2 |
+|      3 |       2 |
+|      4 |       2 |
+|      5 |       2 |
+|      6 |       3 |
+|      7 |       1 |
+|      8 |       2 |
+|      9 |       2 |
+|     10 |       4 |
+|     11 |       2 |
+|     12 |       6 |
+|     13 |       7 |
+|     14 |       2 |
+|     15 |       2 |
+|     16 |       7 |
+|     17 |       8 |
+|     18 |       4 |
+|     19 |       2 |
+|     20 |       2 |
+|     21 |       2 |
+|     22 |       9 |
+|     23 |       9 |
+|     24 |       9 |
+|     25 |       9 |
+|     26 |       9 |
+|     27 |      10 |
+|     28 |      10 |
+|     29 |      10 |
++--------+---------+
+select * from Artist natural join Albums;
++----------+---------------+---------+-----------------+-------------+
+| ArtistID | ArtistName    | AlbumID | AlbumTitle      | ReleaseYear |
++----------+---------------+---------+-----------------+-------------+
+|        1 | Kim Namjoon   |       1 | Indigo          |        2022 |
+|        2 | Kim Seokjin   |       2 | SoloTrack       |        2022 |
+|        3 | Min Yoongi    |       3 | D-Day           |        2023 |
+|        4 | Jung Hoseok   |       4 | Jack in the Box |        2022 |
+|        5 | Park Jimin    |       5 | Face            |        2023 |
+|        6 | Kim Taehyung  |       6 | Layover         |        2023 |
+|        7 | Jeon Jungkook |       7 | 3D              |        2023 |
++----------+---------------+---------+-----------------+-------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
