@@ -3,29 +3,39 @@ Designing a database for managing music-related information involves creating se
 
 Create database Bighit;
  use Bighit;
+
+#Create TABLES
+
 Create table Artist (
     ->  ArtistID INT PRIMARY KEY AUTO_INCREMENT,
     -> ArtistName VARCHAR(255) NOT NULL);
+
 CREATE TABLE Albums (
     ->  AlbumID INT PRIMARY KEY AUTO_INCREMENT,
     -> AlbumTitle VARCHAR(255) NOT NULL,
     ->  ReleaseYear INT,
     -> ArtistID INT,
     ->  FOREIGN KEY (ArtistID) REFERENCES Artist(ArtistID));
+
 CREATE TABLE Songs (
     -> SongID INT PRIMARY KEY AUTO_INCREMENT,
     -> SongTitle VARCHAR(255) NOT NULL,
     -> DurationInSeconds INT,
     -> AlbumID INT,
     -> FOREIGN KEY (AlbumID) REFERENCES Albums(AlbumID));
+
  CREATE TABLE Genres (
     -> GenreID INT PRIMARY KEY AUTO_INCREMENT,
     -> GenreName VARCHAR(255) NOT NULL);
+
  CREATE TABLE SongGenres (
     -> SongID INT,GenreID INT,
     -> PRIMARY KEY (SongID, GenreID),
     -> FOREIGN KEY (SongID) REFERENCES Songs(SongID),
     -> FOREIGN KEY (GenreID) REFERENCES Genres(GenreID));
+
+# Show TABLES
+
  show tables;
 +------------------+
 | Tables_in_bighit |
@@ -36,6 +46,9 @@ CREATE TABLE Songs (
 | songgenres       |
 | songs            |
 +------------------+
+
+# Describe TABLES
+
  desc albums;
 +-------------+--------------+------+-----+---------+----------------+
 | Field       | Type         | Null | Key | Default | Extra          |
@@ -45,21 +58,24 @@ CREATE TABLE Songs (
 | ReleaseYear | int(11)      | YES  |     | NULL    |                |
 | ArtistID    | int(11)      | YES  | MUL | NULL    |                |
 +-------------+--------------+------+-----+---------+----------------+
- desc artist;
+ 
+desc artist;
 +------------+--------------+------+-----+---------+----------------+
 | Field      | Type         | Null | Key | Default | Extra          |
 +------------+--------------+------+-----+---------+----------------+
 | ArtistID   | int(11)      | NO   | PRI | NULL    | auto_increment |
 | ArtistName | varchar(255) | NO   |     | NULL    |                |
 +------------+--------------+------+-----+---------+----------------+
- desc genres;
+
+desc genres;
 +-----------+--------------+------+-----+---------+----------------+
 | Field     | Type         | Null | Key | Default | Extra          |
 +-----------+--------------+------+-----+---------+----------------+
 | GenreID   | int(11)      | NO   | PRI | NULL    | auto_increment |
 | GenreName | varchar(255) | NO   |     | NULL    |                |
 +-----------+--------------+------+-----+---------+----------------+
- desc songs;
+ 
+desc songs;
 +-------------------+--------------+------+-----+---------+----------------+
 | Field             | Type         | Null | Key | Default | Extra          |
 +-------------------+--------------+------+-----+---------+----------------+
@@ -68,13 +84,17 @@ CREATE TABLE Songs (
 | DurationInSeconds | int(11)      | YES  |     | NULL    |                |
 | AlbumID           | int(11)      | YES  | MUL | NULL    |                |
 +-------------------+--------------+------+-----+---------+----------------+
- desc songgenres;
+ 
+desc songgenres;
 +---------+---------+------+-----+---------+-------+
 | Field   | Type    | Null | Key | Default | Extra |
 +---------+---------+------+-----+---------+-------+
 | SongID  | int(11) | NO   | PRI | NULL    |       |
 | GenreID | int(11) | NO   | PRI | NULL    |       |
 +---------+---------+------+-----+---------+-------+
+
+# Insert VALUES in TABLE(ARTIST)
+
 INSERT INTO Artist (ArtistName) VALUES ('Kim Namjoon');
 INSERT INTO Artist (ArtistName) VALUES ('Kim Seokjin');
 INSERT INTO Artist (ArtistName) VALUES ('Min Yoongi');
@@ -82,6 +102,7 @@ INSERT INTO Artist (ArtistName) VALUES ('Jung Hoseok');
 INSERT INTO Artist (ArtistName) VALUES ('Park Jimin');
 INSERT INTO Artist (ArtistName) VALUES ('Kim Taehyung');
 INSERT INTO Artist (ArtistName) VALUES ('Jeon Jungkook');
+
 select * from Artist;
 +----------+---------------+
 | ArtistID | ArtistName    |
@@ -94,12 +115,16 @@ select * from Artist;
 |        6 | Kim Taehyung  |
 |        7 | Jeon Jungkook |
 +----------+---------------+
+
+# INSERT Values in TABLE (ALBUMS)
+
 INSERT INTO Albums (AlbumTitle, ReleaseYear, ArtistID) VALUES ('Indigo',2022,1);
 INSERT INTO Albums (AlbumTitle, ReleaseYear, ArtistID) VALUES ('SoloTrack',2022,2);
 INSERT INTO Albums (AlbumTitle, ReleaseYear, ArtistID) VALUES ('D-Day',2023,3);
 INSERT INTO Albums (AlbumTitle, ReleaseYear, ArtistID) VALUES ('Jack in the Box',2022,4);
 INSERT INTO Albums (AlbumTitle, ReleaseYear, ArtistID) VALUES ('Face',2023,5);
 INSERT INTO Albums (AlbumTitle, ReleaseYear, ArtistID) VALUES ('Layover',2023,6);INSERT INTO Albums (AlbumTitle, ReleaseYear, ArtistID) VALUES ('3D',2023,7);
+
 select * from Albums;
 +---------+-----------------+-------------+----------+
 | AlbumID | AlbumTitle      | ReleaseYear | ArtistID |
@@ -112,6 +137,9 @@ select * from Albums;
 |       6 | Layover         |        2023 |        6 |
 |       7 | 3D              |        2023 |        7 |
 +---------+-----------------+-------------+----------+
+
+# INSERT Values in TABLE (SONGS)
+
 INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Hectic',227, 1);
 INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('All Day',187, 1);
 INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('Forgtful',163, 1);
@@ -143,6 +171,7 @@ INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('For Us',172,6
 INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('3D',201,7);
 INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('3D Instrumental',209,7);
 INSERT INTO Songs (SongTitle, DurationInSeconds, AlbumID) VALUES ('3D Alternate Vesion',162,7);
+
 select * from Songs;
 +--------+---------------------+-------------------+---------+
 | SongID | SongTitle           | DurationInSeconds | AlbumID |
@@ -177,6 +206,9 @@ select * from Songs;
 |     28 | 3D Instrumental     |               209 |       7 |
 |     29 | 3D Alternate Vesion |               162 |       7 |
 +--------+---------------------+-------------------+---------+
+
+# INSERT Values in TABLE (GENRES)
+
 INSERT INTO Genres (GenreName) VALUES ('Hip-hop');
 INSERT INTO Genres (GenreName) VALUES ('K-Pop');
 INSERT INTO Genres (GenreName) VALUES ('Rock');
@@ -186,6 +218,7 @@ INSERT INTO Genres (GenreName) VALUES ('old school hip-hop');
 INSERT INTO Genres (GenreName) VALUES ('Melancholic R&B');
 INSERT INTO Genres (GenreName) VALUES ('R&B/Soul');
 INSERT INTO Genres (GenreName) VALUES ('pop R&B');
+
 select * from genres;
 +---------+--------------------+
 | GenreID | GenreName          |
@@ -200,6 +233,9 @@ select * from genres;
 |       8 | R&B/Soul           |
 |       9 | pop R&B            |
 +---------+--------------------+
+
+# INSERT Values in TABLE (SONGGENRES)
+
 INSERT INTO SongGenres (SongID, GenreID) VALUES (1, 1);
 INSERT INTO SongGenres (SongID, GenreID) VALUES (2, 2);
 INSERT INTO SongGenres (SongID, GenreID) VALUES (3, 2);
@@ -229,6 +265,7 @@ INSERT INTO SongGenres (SongID, GenreID) VALUES (26, 9);
 INSERT INTO SongGenres (SongID, GenreID) VALUES (27, 10);
 INSERT INTO SongGenres (SongID, GenreID) VALUES (28, 10);
 INSERT INTO SongGenres (SongID, GenreID) VALUES (29, 10);
+
 select * from SongGenres;
 +--------+---------+
 | SongID | GenreID |
@@ -263,6 +300,9 @@ select * from SongGenres;
 |     28 |      10 |
 |     29 |      10 |
 +--------+---------+
+
+#Joins
+
 select * from Artist natural join Albums;
 +----------+---------------+---------+-----------------+-------------+
 | ArtistID | ArtistName    | AlbumID | AlbumTitle      | ReleaseYear |
